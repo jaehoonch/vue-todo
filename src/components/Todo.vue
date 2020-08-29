@@ -1,23 +1,23 @@
 <template>
   <div id="todo">
-    <input type="text" v-model="userInput" @keyup.enter="addNewTodo" />
-    <div class="ui divided list">
-      <div class="item" :key="todo.id" v-for="todo in this.todoList">
-        <div class="content">
-          {{todo.text}}
+    <h2>List of Todos ({{this.todoList.length}})</h2>
+    <div class="ui massive fluid input">
+      <input type="text" v-model="userInput" placeholder="Add Todo.." @keyup.enter="addNewTodo" />
+    </div>
+    <div class="ui segment">
+      <div class="ui huge divided list">
+        <div class="item" :key="todo.id" v-for="todo in this.todoList">
+          <!-- Content for each Item -->
+          <div class="right floated content">
+            <div class="ui button">Modify</div>
+            <div class="ui button">Delete</div>
+          </div>
+          <div class="content">
+            <div class="header">{{todo.text}}</div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- <div class="ui divided list">
-      <div class="item" :key="todo.id" v-for="todo in allTodos">
-        <div class="right floated" content>
-          <div class="ui button">Edit</div>
-        </div>
-        <div class="content">
-          <h3>{{ todo.name }} / {{ todo.duedate }}</h3>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -28,21 +28,21 @@ export default {
   name: "Todo",
   data() {
     return {
-      userInput: '',
+      userInput: "",
       todoList: [],
-      todoId: 1
+      todoId: 1,
     };
   },
   methods: {
-    addNewTodo(){
-      if(this.userInput != ''){
+    addNewTodo() {
+      if (this.userInput != "") {
         this.todoList.push({
           id: this.todoId++,
-          text: this.userInput
+          text: this.userInput,
         });
-        this.userInput = '';
+        this.userInput = "";
       }
-    }
+    },
   },
   computed: mapGetters(["allTodos"]),
 };

@@ -1,6 +1,5 @@
 <template>
   <div id="app" class="ui container">
-    <h2>List of Todos</h2>
     <Todo />
   </div>
 </template>
