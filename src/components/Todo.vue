@@ -1,23 +1,28 @@
 <template>
   <div id="todo">
-    <h2>List of Todos ({{this.todoList.length}})</h2>
+    <h1>List of Todos ({{this.todoList.length}})</h1>
     <div class="ui massive fluid input">
       <input type="text" v-model="userInput" placeholder="Add Todo.." @keyup.enter="addNewTodo" />
     </div>
-    <div class="ui segment">
-      <div class="ui huge divided list">
-        <div class="item" :key="todo.id" v-for="todo in this.todoList">
-          <!-- Content for each Item -->
-          <div class="right floated content">
-            <div class="ui button">Modify</div>
-            <div class="ui button">Delete</div>
-          </div>
-          <div class="content">
-            <div class="header">{{todo.text}}</div>
+    <template v-if="this.todoList.length > 0">
+      <div class="ui segment">
+        <div class="ui huge divided list">
+          <div class="item" :key="todo.id" v-for="todo in this.todoList">
+            <!-- Content for each Item -->
+            <div class="right floated content">
+              <div class="ui button">Modify</div>
+              <div class="ui button">Delete</div>
+            </div>
+            <div class="content">
+              <div class="header">{{todo.text}}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template v-else>
+      <h2>No Todo at this time...</h2>
+    </template>
   </div>
 </template>
 
