@@ -1,20 +1,20 @@
 <template>
   <div id="app" class="ui container">
     <h2>List of Todos</h2>
-    <SearchBar />
+    <!-- <SearchBar /> -->
     <Todo />
   </div>
 </template>
 
 <script>
 import Todo from "./components/Todo";
-import SearchBar from "./components/SearchBar";
+// import SearchBar from "./components/SearchBar";
 
 export default {
   name: "App",
   components: {
     Todo,
-    SearchBar,
+    // SearchBar,
   },
 };
 </script>
