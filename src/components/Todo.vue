@@ -1,22 +1,23 @@
 <template>
   <div id="todo">
-    <h3>{{this.todoList}}</h3>
-    <h3>{{this.selectedList}}</h3>
-    <h1>List of Todos (Active: {{activeTodoList.length}}, Done: {{doneTodoList.length}})</h1>
+    <h1>List of Todos</h1>
     <!-- Input Content -->
     <div class="ui massive fluid input">
       <input type="text" v-model="userInput" placeholder="Add Todo.." @keyup.enter="addNewTodo" />
     </div>
     <!-- Filter Button -->
     <div id="filter" class="three large ui buttons">
-      <button class="ui button active" @click="setSelectedList('all')">All</button>
-      <button class="ui button" @click="setSelectedList('active')">Active</button>
-      <button class="ui button" @click="setSelectedList('done')">Done</button>
+      <button class="ui button" @click="selectedFilter = 'all'">All ({{this.todoList.length}})</button>
+      <button
+        class="ui button"
+        @click="selectedFilter = 'active'"
+      >Active ({{activeTodoList.length}})</button>
+      <button class="ui button" @click="selectedFilter = 'done'">Done ({{doneTodoList.length}})</button>
     </div>
-    <template v-if="activeTodoList.length > 0">
+    <template v-if="selectedTodoList.length > 0">
       <div class="ui segment">
         <div class="ui huge divided list">
-          <div class="item" :key="todo.id" v-for="todo in this.selectedList">
+          <div class="item" :key="todo.id" v-for="todo in selectedTodoList">
             <!-- Item Content -->
             <div class="right floated content">
               <div class="ui button" @click="enterEditMode(todo)">Edit</div>
@@ -25,7 +26,7 @@
             <div class="content">
               <div class="header">
                 <!-- If editMode is False, just display the texts -->
-                <div v-if="!todo.editMode">{{todo.id}} / {{todo.text}} / {{todo.done}}</div>
+                <div v-if="!todo.editMode">{{todo.text}}</div>
                 <!-- If editMode is True, enter edit mode -->
                 <input
                   v-else
@@ -55,8 +56,8 @@ export default {
     return {
       userInput: "",
       todoList: [],
-      selectedList: [],
       todoId: 1,
+      selectedFilter: "active",
     };
   },
   methods: {
@@ -83,27 +84,20 @@ export default {
     exitEditMode(todo) {
       todo.editMode = false;
     },
-    setSelectedList(category) {
-      switch (category) {
-        case "all":
-          this.selectedList = this.todoList;
-          break;
-        case "active":
-          this.selectedList = this.todoList.filter(
-            (todo) => todo.done === false
-          );
-          break;
-        case "done":
-          this.selectedList = this.todoList.filter(
-            (todo) => todo.done === true
-          );
-          break;
-        default:
-          return "Unexpected";
-      }
-    },
   },
   computed: {
+    selectedTodoList() {
+      switch (this.selectedFilter) {
+        case "all":
+          return this.todoList;
+        case "active":
+          return this.todoList.filter((todo) => todo.done === false);
+        case "done":
+          return this.todoList.filter((todo) => todo.done === true);
+        default:
+          return [];
+      }
+    },
     activeTodoList() {
       return this.todoList.filter((todo) => todo.done === false);
     },
